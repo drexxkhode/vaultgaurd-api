@@ -1,0 +1,14 @@
+const express = require("express");
+
+//EXPRESS SESSION
+const sessionRoute = express.Router();
+
+sessionRoute.get("/", (req,res)=>{
+  if(req.session.user){
+    return res.status(200).json({isLoggedIn: true, user: req.session.user});
+  }
+  else{
+    return res.status(403).json({isLoggedIn: false});
+  }
+});
+module.exports = sessionRoute;
