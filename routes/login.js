@@ -21,8 +21,9 @@ login.post("/", async (req, res, next) => {
         if (isMatch) {
           req.session.user = { id: user.id, username: user.username };
           activityLogger("LOGIN", `${ToUpperUsername} LOGGED IN`)(req, res, () => {});
-          return res.status(200).json({ message: "login successful " });
+          return res.status(200).json({ message: "Authorized" });
         } else {
+
           activityLogger("LOGIN ATTEMPT", `${ToUpperUsername} ATTEMPTED A LOGIN`)(req, res, () => {});
           return res.status(401).json({ message: "Unauthorized" });
         }

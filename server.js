@@ -1,8 +1,12 @@
+//EXPRESS
 const express = require("express");
 
 // CSRF INC
 const crsf = require ("csurf");
 csrfProtection =  crsf();
+
+//MORGAN 
+const morgan = require("morgan");
 
 //ENVIRONMENT VARIABLE INC
 require("dotenv").config();
@@ -54,8 +58,16 @@ const isAuthenticated = require("./controllers/auth");
 
 //CSRF-TOKEN
 const csrfRoute = require("./middlewares/crsf");
+
+//JOI VALIDATION
 const validate  = require("./utils/joi");
 const registrationSchema = require("./schema/joi");
+
+//UPDATE FETCH ONE SITE
+const updateFectch = require('./routes/updateFetch');
+
+//EXPRESS STATUS MONITOR 
+const status = require("express-status-monitor");
 
 // APP PORT 
 const PORT = process.env.PORT || 5000 ;
@@ -64,7 +76,7 @@ const PORT = process.env.PORT || 5000 ;
 const app = express();
 
 // JSON
-app.use(express.json({limit: "5mb"}));
+app.use(express.json({limit: "10mb"}));
 
 //FORMS
 app.use(express.urlencoded({extended:false }));
@@ -72,20 +84,30 @@ app.use(express.urlencoded({extended:false }));
 //EXPRESS USERAGENT GLOBAL USAGE
 app.use(useragent.express());
 
+//EXPRESS STATUS MONITOR USAGE
+app.use(status());
+
 //CORS USAGE
-//app.use(cors);
+app.use(cors);
 
 //HELMET USAGE 
-app.use(helmet);
+//app.use(helmet);
 
+//MORGAN USAGE
+if(process.env.NODE_ENV === "development"){
+    app.use(morgan("dev"));
+}
 //SESSION CONFIG USAGE
 app.use(session);
 
+//CSURF USAGE
+//app.use(csrfProtection);
+
 //CSRF TOKEN ENDPOINT USAGE
-app.use("/csrf-token", csrfProtection, csrfRoute);
+app.use("/csrf-token",csrfProtection,csrfRoute);
 
 //LOGIN ENDPOINT USAGE
-app.use("/login",limiter,login);
+app.use("/login",limiter, csrfProtection, login );
 
 //DELETE ENDPOINT USAGE
 app.use("/delete", deleteRoute);
@@ -100,11 +122,13 @@ app.use("/session", sessionRoute);
 app.use("/logout", logout);
 
 //REGISTER ENDPOINT USAGE
-app.use("/register",validate(registrationSchema), register);
+app.use("/register", register);
 
 //FETCH ALL DATA ENDPOINT USAGE
-app.use("/data", isAuthenticated, fetchData);
+app.use("/data", fetchData);
 
+//FETCH ONE SITE ENDPOINT USAGE
+app.use('/fetch', updateFectch);
 
 // GLOBAL ERROR USAGE 
 app.use(errors);
@@ -112,4 +136,6 @@ app.use(errors);
 //APP PORT USAGE
 app.listen(PORT, ()=>{
 console.log(`Server running on http://localhost:${PORT}`);
+console.log(`App status on http://localhost:${PORT}/status`);
+
 });

@@ -11,7 +11,7 @@ fetchData.get("/", (req, res, next) => {   // include next here
     }
 
     if (results.length > 0) {
-      return res.status(200).json({ data: results });
+      return res.status(200).json(results);
     } else {
       return res.status(404).json({ message: "No available data" });
     }

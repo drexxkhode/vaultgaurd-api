@@ -18,3 +18,6 @@ exports.logSql = "INSERT INTO logs(event, description, ip, x_forward_ip, browser
 
 //FETCH ALL DATA FROM DATABASE
 exports.dataSql= "SELECT * FROM web";
+
+//FETCH ONE QUERY
+exports.fetchSql = 'SELECT id , site, username, password, status FROM web WHERE id =? LIMIT 1'; 
