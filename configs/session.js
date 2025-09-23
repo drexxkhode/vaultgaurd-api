@@ -14,9 +14,9 @@ store: sessionStore,
 cookie: {
 
 maxAge: 1000 * 60 * 5,
-httpOnly: false,
-secure: false,
-sameSite: 'lax'
+httpOnly: true,
+secure: true,
+sameSite: 'strict'
 
 }
 

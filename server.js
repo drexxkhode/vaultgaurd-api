@@ -91,7 +91,7 @@ app.use(status());
 app.use(cors);
 
 //HELMET USAGE 
-//app.use(helmet);
+app.use(helmet);
 
 //MORGAN USAGE
 if(process.env.NODE_ENV === "development"){
@@ -100,9 +100,6 @@ if(process.env.NODE_ENV === "development"){
 //SESSION CONFIG USAGE
 app.use(session);
 
-//CSURF USAGE
-//app.use(csrfProtection);
-
 //CSRF TOKEN ENDPOINT USAGE
 app.use("/csrf-token",csrfProtection,csrfRoute);
 
@@ -110,22 +107,22 @@ app.use("/csrf-token",csrfProtection,csrfRoute);
 app.use("/login",limiter, csrfProtection, login );
 
 //DELETE ENDPOINT USAGE
-app.use("/delete", deleteRoute);
+app.use("/delete",isAuthenticated, deleteRoute);
 
 //UPDATE ENDPOINT USAGE
-app.use('/update', update);
+app.use('/update', isAuthenticated,update);
 
 //SESSION ENDPOINT USAGE
-app.use("/session", sessionRoute);
+app.use("/session",sessionRoute);
 
 //LOGOUT ENDPOINT USAGE
 app.use("/logout", logout);
 
 //REGISTER ENDPOINT USAGE
-app.use("/register", register);
+app.use("/register",isAuthenticated, register);
 
 //FETCH ALL DATA ENDPOINT USAGE
-app.use("/data", fetchData);
+app.use("/data", isAuthenticated, fetchData);
 
 //FETCH ONE SITE ENDPOINT USAGE
 app.use('/fetch', updateFectch);
