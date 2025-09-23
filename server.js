@@ -95,7 +95,7 @@ app.use(helmet);
 
 //MORGAN USAGE
 if(process.env.NODE_ENV === "development"){
-    app.use(morgan("dev"));
+    app.use(morgan("combined"));
 }
 //SESSION CONFIG USAGE
 app.use(session);
