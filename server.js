@@ -125,7 +125,7 @@ app.use("/register",isAuthenticated, register);
 app.use("/data", isAuthenticated, fetchData);
 
 //FETCH ONE SITE ENDPOINT USAGE
-app.use('/fetch',isAuthenticated, updateFectch);
+app.use('/fetch', updateFectch);
 
 // GLOBAL ERROR USAGE 
 app.use(errors);
