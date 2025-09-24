@@ -1,5 +1,4 @@
 const errors = (err, req, res, next) => {
-  console.log("Error caught in middleware", err);
   // Handle CSRF error
   if(res.headersSent){
     console.error("Headers already sent for this reponse ");

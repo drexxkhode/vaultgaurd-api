@@ -95,13 +95,13 @@ app.use(helmet);
 
 //MORGAN USAGE
 if(process.env.NODE_ENV === "development"){
-    app.use(morgan("combined"));
+    app.use(morgan("dev"));
 }
 //SESSION CONFIG USAGE
 app.use(session);
 
 //CSRF TOKEN ENDPOINT USAGE
-app.use("/csrf-token",csrfProtection,csrfRoute);
+app.use("/csrf-token", csrfProtection, csrfRoute);
 
 //LOGIN ENDPOINT USAGE
 app.use("/login",limiter, csrfProtection, login );
@@ -110,7 +110,7 @@ app.use("/login",limiter, csrfProtection, login );
 app.use("/delete",isAuthenticated, deleteRoute);
 
 //UPDATE ENDPOINT USAGE
-app.use('/update', isAuthenticated,update);
+app.use('/update', isAuthenticated, update);
 
 //SESSION ENDPOINT USAGE
 app.use("/session",sessionRoute);
@@ -125,7 +125,7 @@ app.use("/register",isAuthenticated, register);
 app.use("/data", isAuthenticated, fetchData);
 
 //FETCH ONE SITE ENDPOINT USAGE
-app.use('/fetch', updateFectch);
+app.use('/fetch',isAuthenticated, updateFectch);
 
 // GLOBAL ERROR USAGE 
 app.use(errors);
